@@ -1,11 +1,20 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "64af23abdef232726fdbbf2ea2575c88"
 # The three bars on the uri signals a relative path, the db must be on the same directory.
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+# login is the fn name of the fn managing the login on routes.py
+login_manager.login_view = "login"
+# It uses the info class for bootstrap
+login_manager.login_message_category = "info"
+
 
 from flaskblog import routes
 
